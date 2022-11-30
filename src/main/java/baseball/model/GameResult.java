@@ -34,11 +34,11 @@ public enum GameResult {
         return this.strikeCount == strikeCount && this.ballCount == ballCount;
     }
 
-    public String getOutput() {
-        return output;
+    public boolean isUserWin() {
+        return this.equals(STRIKE_3_BALL_0);
     }
 
-    public boolean isWin() {
-        return this.equals(STRIKE_3_BALL_0);
+    public String getOutput() {
+        return output;
     }
 }

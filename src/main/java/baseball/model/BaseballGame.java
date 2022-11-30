@@ -1,8 +1,6 @@
 package baseball.model;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class BaseballGame {
     private final ComputerBallsGenerator computerBallsGenerator;
@@ -19,7 +17,7 @@ public class BaseballGame {
     }
 
     public boolean isContinuing() {
-        return gameStatus.equals(GameStatus.CONTINUING);
+        return gameStatus.isContinuing();
     }
 
     public GameResult compare(List<Integer> inputNumbers) {
@@ -30,7 +28,7 @@ public class BaseballGame {
     }
 
     private void checkUserWin(GameResult result) {
-        if (result.isWin()) {
+        if (result.isUserWin()) {
             gameStatus = GameStatus.STOP;
         }
     }

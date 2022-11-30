@@ -50,9 +50,9 @@ public class Balls {
         return GameResult.of(ballCount, strikeCount);
     }
 
-    private int countFiltered(Balls opponent, Predicate<Ball> filter) {
+    private int countFiltered(Balls opponent, Predicate<Ball> predicate) {
         return (int) opponent.balls.stream()
-                .filter(opponentBall -> filter.test(opponentBall))
+                .filter(predicate)
                 .count();
     }
 

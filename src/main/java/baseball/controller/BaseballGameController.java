@@ -16,11 +16,11 @@ public class BaseballGameController {
 
     public BaseballGameController(BaseballGame baseballGame) {
         this.baseballGame = baseballGame;
-        baseballGame.init();
     }
 
     public void run() {
         outputView.printStartingMessage();
+        baseballGame.init();
         while (baseballGame.isContinuing()) {
             playAGame();
             baseballGame.checkRegame(inputView.inputGameCommand());

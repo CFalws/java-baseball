@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 public class ComputerBallsGenerator {
     public Balls generate() {
@@ -25,7 +25,7 @@ public class ComputerBallsGenerator {
             int number = Randoms.pickNumberInRange(BallNumber.LOWER_BOUNDS, BallNumber.UPPER_BOUNDS);
             uniqueNumbers.add(number);
         }
-        return new ArrayList<Integer>(uniqueNumbers);
+        return new ArrayList<>(uniqueNumbers);
     }
 
     private static boolean hasEnough(Set<Integer> uniqueNumbers) {
