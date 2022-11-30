@@ -1,7 +1,5 @@
 package baseball.view;
 
-import baseball.model.Balls;
-
 public class InputValidator {
     public static void validateNumbers(String numbers) {
         try {
