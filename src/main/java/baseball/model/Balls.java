@@ -10,49 +10,59 @@ public class Balls {
 
     private final List<Ball> balls;
 
+    public static Balls from(List<Integer> numbers) {
+        List<Ball> ballList = IntStream.range(0, numbers.size())
+                .mapToObj(i -> Ball.from(numbers.get(i), i))
+                .collect(Collectors.toList());
+        return new Balls(ballList);
+    }
+
     public Balls(List<Ball> balls) {
         validate(balls);
         this.balls = balls;
     }
 
-    public Balls(String ballsString) {
-        balls = IntStream.range(0, ballsString.length())
-                .mapToObj(i -> new Ball(BallNumber.valueOf(Integer.parseInt(ballsString.substring(i, i + 1))),
-                        Position.valueOf(i)))
-                .collect(Collectors.toList());
-        validate(balls);
+    private void validate(List<Ball> balls) {
+        validateSize(balls);
+        validateDuplication(balls);
     }
 
-    private void validate(List<Ball> balls) {
-        long count = balls.stream()
-                .map(Ball::getBallNumber)
-                .distinct()
-                .count();
-        if (count != SIZE || balls.size() != SIZE) {
+    private void validateSize(List<Ball> balls) {
+        if (balls.size() != SIZE) {
             throw new IllegalArgumentException();
         }
     }
 
-    public GameResult compare(Balls other) {
-        int ballCount = count(other, this::checkBall);
-        int strikeCount = count(other, this::checkStrike);
+    private void validateDuplication(List<Ball> balls) {
+        long uniqueBallsCount = balls.stream()
+                .map(Ball::getNumber)
+                .distinct()
+                .count();
+
+        if (uniqueBallsCount != SIZE) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    public GameResult compare(Balls opponent) {
+        int ballCount = countFiltered(opponent, this::ballPredicate);
+        int strikeCount = countFiltered(opponent, this::strikePredicate);
         return GameResult.of(ballCount, strikeCount);
     }
 
-    private int count(Balls other, Predicate<Ball> checker) {
-        return (int) other.balls.stream()
-                .filter(otherBall -> checker.test(otherBall))
+    private int countFiltered(Balls opponent, Predicate<Ball> filter) {
+        return (int) opponent.balls.stream()
+                .filter(opponentBall -> filter.test(opponentBall))
                 .count();
     }
 
-    private boolean checkBall(Ball otherBall) {
+    private boolean ballPredicate(Ball otherBall) {
         return balls.stream()
                 .anyMatch(ball -> ball.isBall(otherBall));
     }
 
-    private boolean checkStrike(Ball otherBall) {
+    private boolean strikePredicate(Ball otherBall) {
         return balls.stream()
                 .anyMatch(ball -> ball.isStrike(otherBall));
     }
-
 }

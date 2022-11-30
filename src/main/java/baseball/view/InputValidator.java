@@ -4,9 +4,6 @@ import baseball.model.Balls;
 
 public class InputValidator {
     public static void validateNumbers(String numbers) {
-        if (numbers.length() != Balls.SIZE) {
-            throw new IllegalArgumentException();
-        }
         try {
             Integer.parseInt(numbers);
         } catch (NumberFormatException e) {
@@ -14,7 +11,7 @@ public class InputValidator {
         }
     }
 
-    public static void validateRestart(String restart) {
+    public static void validateCommandCode(String restart) {
         try {
             Integer.parseInt(restart);
         } catch (NumberFormatException e) {

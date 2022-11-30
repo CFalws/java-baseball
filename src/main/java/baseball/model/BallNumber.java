@@ -2,36 +2,40 @@ package baseball.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class BallNumber {
-    public static final int NUMBER_LOWER_BOUNDS = 1;
-    public static final int NUMBER_UPPER_BOUNDS = 9;
+    public static final int LOWER_BOUNDS = 1;
+    public static final int UPPER_BOUNDS = 9;
     private static final Map<Integer, BallNumber> CACHE = new HashMap<>();
-    private final int ballNumber;
+    private final int number;
 
     static {
-        for (int number = NUMBER_LOWER_BOUNDS; number <= NUMBER_UPPER_BOUNDS; number++) {
+        for (int number = LOWER_BOUNDS; number <= UPPER_BOUNDS; number++) {
             CACHE.put(number, new BallNumber(number));
         }
     }
 
-    private BallNumber(int ballNumber) {
-        validate(ballNumber);
-        this.ballNumber = ballNumber;
+    private BallNumber(int number) {
+        validate(number);
+        this.number = number;
     }
 
-    private static void validate(int ballNumber) {
-        if (ballNumber < NUMBER_LOWER_BOUNDS || ballNumber > NUMBER_UPPER_BOUNDS) {
+    private void validate(int ballNumber) {
+        if (ballNumber < LOWER_BOUNDS || ballNumber > UPPER_BOUNDS) {
             throw new IllegalArgumentException();
         }
     }
 
-    public static BallNumber valueOf(int ballNumber) {
-        validate(ballNumber);
-        return CACHE.get(ballNumber);
+    public static BallNumber valueOf(int number) {
+        BallNumber ballNumber = CACHE.get(number);
+        if (Objects.isNull(ballNumber)) {
+            ballNumber = new BallNumber(number);
+        }
+        return ballNumber;
     }
 
-    public int getBallNumber() {
-        return ballNumber;
+    public int getNumber() {
+        return number;
     }
 }

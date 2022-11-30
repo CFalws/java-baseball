@@ -1,35 +1,38 @@
 package baseball.controller;
 
 import baseball.model.Balls;
+import baseball.model.BaseballGame;
 import baseball.model.ComputerBallsGenerator;
 import baseball.model.GameResult;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 
+import java.util.List;
+
 public class BaseballGameController {
     private final InputView inputView = InputView.getInstance();
     private final OutputView outputView = OutputView.getInstance();
-    private final ComputerBallsGenerator computerBallsGenerator;
+    private final BaseballGame baseballGame;
 
-    public BaseballGameController(ComputerBallsGenerator computerBallsGenerator) {
-        this.computerBallsGenerator = computerBallsGenerator;
+    public BaseballGameController(BaseballGame baseballGame) {
+        this.baseballGame = baseballGame;
+        baseballGame.init();
     }
 
     public void run() {
-        outputView.printStart();
-        do {
+        outputView.printStartingMessage();
+        while (baseballGame.isContinuing()) {
             playAGame();
-        } while (inputView.inputRestart().isRestart());
+            baseballGame.checkRegame(inputView.inputGameCommand());
+        }
     }
 
     private void playAGame() {
-        GameResult gameResult = null;
-        Balls computerBalls = computerBallsGenerator.generate();
-        do {
-            String inputNumbers = inputView.inputNumbers();
-            Balls user = new Balls(inputNumbers);
-            gameResult = computerBalls.compare(user);
+        while (baseballGame.isContinuing()) {
+            List<Integer> inputNumbers = inputView.inputNumbers();
+            GameResult gameResult = baseballGame.compare(inputNumbers);
             outputView.printResult(gameResult);
-        } while (!gameResult.isRight());
+        }
+        outputView.printWinningMessage();
     }
 }

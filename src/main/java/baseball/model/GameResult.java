@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 public enum GameResult {
     STRIKE_3_BALL_0(3, 0, "3스트라이크"),
-    STRIKE_2_BALL_1(2, 1, "1볼 2스트라이크"),
     STRIKE_1_BALL_2(1, 2, "2볼 1스트라이크"),
     STRIKE_0_BALL_3(0, 3, "3볼"),
     STRIKE_2_BALL_0(2, 0, "2스트라이크"),
@@ -12,30 +11,34 @@ public enum GameResult {
     STRIKE_0_BALL_2(0, 2, "2볼"),
     STRIKE_1_BALL_0(1, 0, "1스트라이크"),
     STRIKE_0_BALL_1(0, 1, "1볼"),
-    OUT(0, 0, "낫싱");
+    NOTHING(0, 0, "낫싱");
 
-    private final int strike;
-    private final int ball;
-    private final String result;
+    private final int strikeCount;
+    private final int ballCount;
+    private final String output;
 
-    GameResult(int strike, int ball, String result) {
-        this.strike = strike;
-        this.ball = ball;
-        this.result = result;
+    GameResult(int strikeCount, int ballCount, String output) {
+        this.strikeCount = strikeCount;
+        this.ballCount = ballCount;
+        this.output = output;
     }
 
     public static GameResult of(int ballCount, int strikeCount) {
         return Arrays.stream(values())
-                .filter(gameResult -> gameResult.strike == strikeCount && gameResult.ball == ballCount)
+                .filter(gameResult -> gameResult.matches(ballCount, strikeCount))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException());
     }
 
-    public String getResult() {
-        return result;
+    private boolean matches(int ballCount, int strikeCount) {
+        return this.strikeCount == strikeCount && this.ballCount == ballCount;
     }
 
-    public boolean isRight() {
-        return this == STRIKE_3_BALL_0;
+    public String getOutput() {
+        return output;
+    }
+
+    public boolean isWin() {
+        return this.equals(STRIKE_3_BALL_0);
     }
 }

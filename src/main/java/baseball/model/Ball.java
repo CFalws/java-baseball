@@ -1,26 +1,27 @@
 package baseball.model;
 
 public class Ball {
-    private final BallNumber ballNumber;
+    private final BallNumber number;
     private final Position position;
 
-    public Ball(BallNumber ballNumber, Position position) {
-        this.ballNumber = ballNumber;
+    public Ball(BallNumber number, Position position) {
+        this.number = number;
         this.position = position;
     }
 
+    public static Ball from(int number, int position) {
+        return new Ball(BallNumber.valueOf(number), Position.valueOf(position));
+    }
+
     public boolean isBall(Ball other) {
-        if (position == other.position) {
-            return false;
-        }
-        return ballNumber == other.ballNumber;
+        return !position.equals(other.position) && number.equals(other.number);
     }
 
     public boolean isStrike(Ball other) {
-        return position == other.position && ballNumber == other.ballNumber;
+        return position.equals(other.position) && number.equals(other.number);
     }
 
-    public BallNumber getBallNumber() {
-        return ballNumber;
+    public BallNumber getNumber() {
+        return number;
     }
 }

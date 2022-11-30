@@ -2,24 +2,24 @@ package baseball.model;
 
 import java.util.Arrays;
 
-public enum RestartCommand {
+public enum GameCommand {
     RESTART(1),
-    END(0);
+    TERMINATION(2);
 
     private final int code;
 
-    RestartCommand(int code) {
+    GameCommand(int code) {
         this.code = code;
     }
 
-    public static RestartCommand from(int code) {
+    public static GameCommand from(int code) {
         return Arrays.stream(values())
-                .filter(restartCommand -> restartCommand.code == code)
+                .filter(gameCommand -> gameCommand.code == code)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException());
     }
 
     public boolean isRestart() {
-        return this == RESTART;
+        return this.equals(RESTART);
     }
 }
