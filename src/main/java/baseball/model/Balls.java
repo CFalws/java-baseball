@@ -44,14 +44,14 @@ public class Balls {
         }
     }
 
-    public GameResult compare(Balls opponent) {
-        int ballCount = countFiltered(opponent, this::ballPredicate);
-        int strikeCount = countFiltered(opponent, this::strikePredicate);
+    public GameResult compare(Balls other) {
+        int ballCount = countFiltered(other, this::ballPredicate);
+        int strikeCount = countFiltered(other, this::strikePredicate);
         return GameResult.of(ballCount, strikeCount);
     }
 
-    private int countFiltered(Balls opponent, Predicate<Ball> predicate) {
-        return (int) opponent.balls.stream()
+    private int countFiltered(Balls other, Predicate<Ball> predicate) {
+        return (int) other.balls.stream()
                 .filter(predicate)
                 .count();
     }

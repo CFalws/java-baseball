@@ -17,12 +17,16 @@ public class BaseballGameController {
     }
 
     public void run() {
-        outputView.printStartingMessage();
-        baseballGame.init();
+        initializeGame();
         while (baseballGame.isContinuing()) {
             playAGame();
             baseballGame.checkRegame(inputView.inputGameCommand());
         }
+    }
+
+    private void initializeGame() {
+        outputView.printStartingMessage();
+        baseballGame.init();
     }
 
     private void playAGame() {
